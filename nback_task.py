@@ -10,6 +10,9 @@ Output: data/nback_<ID>_<timestamp>.csv
 from psychopy import visual, core, event, gui
 import random, csv, os
 from datetime import datetime
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).parent
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 LETTERS          = list("BCDFGHJKLMNPQRST")  # consonants only — prevents vowel rhyming artefacts
@@ -30,9 +33,10 @@ if not dlg.OK:
 participant_id, age = info[0], info[1]
 
 # ── Output ─────────────────────────────────────────────────────────────────────
-os.makedirs("data", exist_ok=True)
+data_dir = SCRIPT_DIR / "data"
+data_dir.mkdir(exist_ok=True)
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-filename  = f"data/nback_{participant_id}_{timestamp}.csv"
+filename  = data_dir / f"nback_{participant_id}_{timestamp}.csv"
 FIELDS    = ["participant_id", "age", "block", "n_level", "trial",
              "stimulus", "is_target", "response", "correct", "rt_ms"]
 
